@@ -1,3 +1,7 @@
+<img width="1536" height="1024" alt="ChatGPT Image Aug 3, 2025, 07_08_31 PM" src="https://github.com/user-attachments/assets/117de34b-17c6-47e4-a9b0-8271979906c9" />
+
+---
+
 # Personal Finance Tracker
 
 A simple and lightweight application built with Streamlit that allows users to log income and expenses, store them in a CSV file, and later visualize and analyze their financial activity.
