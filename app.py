@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 import os
 from utils.data_handler import load_data, save_transactions
-from utiles.visualizer import generate_summary, plot_category_pie
+from utils.visualizer import plot_by_category, plot_total_by_type, plot_monthly_summary
 
-st.set_page_config(page_title="Personal Finance Tracker", layout="centered")
+st.set_page_config(page_title = "Personal Finance Tracker", layout = "centered")
 st.title("Personal Finance Tracker")
 
 data_file = "data/transactions.CSV"
@@ -22,10 +22,10 @@ with st.form("transactions form"):
         save_transactions(data_file, amount, category, transaction_type, date)
         st.success("Transaction added successfully !")
 
-st.header("Summary")
-summary = generate_summary(df)
-st.write(summary)
-
-st.header("Spending Breakdown by Category")
-plot_category_pie(df)
-
+st.subheader("Summary")
+if not df.empty:
+    plot_total_by_type(df)
+    plot_by_category(df)
+    plot_by_category(df)
+else:
+    st.info("No data to visualize yet.")
