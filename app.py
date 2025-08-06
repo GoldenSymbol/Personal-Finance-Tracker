@@ -9,6 +9,7 @@ st.title("Personal Finance Tracker")
 
 data_file = "data/transactions.CSV"
 df = load_data(data_file)
+df["date"] = pd.to_datetime(df["date"])
 
 st.header("Add New Transaction")
 with st.form("transactions form"):
@@ -29,3 +30,15 @@ if not df.empty:
     plot_by_category(df)
 else:
     st.info("No data to visualize yet.")
+
+st.header("Filter Transactions by Date Range")
+
+strat_data = st.date_input("Start Date", value = df["date"].min())
+end_date = st.date_input("End Date", value = df["date"].max())
+
+if strat_data > end_date:
+    st.error("Start date must be before the ends date.")
+else:
+    filtered_df = df[(df["date"] >= pd.to_datetime(strat_data)) & (df["date"] <= pd.to_datetime(end_date))]
+    st.subheader("Filtered Transactions")
+    st.dataframe(filtered_df)
