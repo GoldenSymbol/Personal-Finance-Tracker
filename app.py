@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 from utils.data_handler import load_data, save_transactions
-from utils.visualizer import plot_by_category, plot_total_by_type, plot_monthly_summary
+from utils.visualizer import plot_by_category, plot_total_by_type, plot_monthly_summary, plot_monthly_income_vs_expenses
 
 st.set_page_config(page_title = "Personal Finance Tracker", layout = "centered")
 st.title("Personal Finance Tracker")
@@ -27,7 +27,8 @@ st.subheader("Summary")
 if not df.empty:
     plot_total_by_type(df)
     plot_by_category(df)
-    plot_by_category(df)
+    plot_monthly_summary(df)
+    plot_monthly_income_vs_expenses(df)
 else:
     st.info("No data to visualize yet.")
 
