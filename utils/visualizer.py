@@ -37,3 +37,23 @@ def plot_monthly_income_vs_expenses(df):
     plt.ylabel("Amount")
     plt.title("Month Income vs Expenses")
     st.pyplot(plt)
+
+def get_top_expense_category(df):
+    expenses = df[df["type"] == ["Expense"]]
+    if not expenses.empty:
+        top_category = expenses.groupby("category")["amount"].sum().idxmax()
+        total = expenses.groupby("category")["amount"].sum().max()
+        st.metric("Top Expense Category", top_category, f"{total:.2f}$")
+
+def display_total_income_expense(df):
+    income = df[df["type"] == "Income"]["amount"].sum()
+    expense = df[df["type"] == "Expense"]["amount"].sum()
+    st.metric("Total Income", f"{income:.2f}$")
+    st.metric("Total Expense", f"{expense:.2f}$")
+
+def display_total_income_expense_ratio(df):
+    income = df[df["type"] == "Income"]["amount"].sum()
+    expense = df[df["type"] == "Expense"]["amount"].sum()
+    if income > 0:
+        ratio = (expense / income) * 100
+        st.metric("Expense to Income ratio", f"{ratio:.2f}$")

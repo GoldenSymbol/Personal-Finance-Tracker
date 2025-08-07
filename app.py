@@ -2,7 +2,15 @@ import streamlit as st
 import pandas as pd
 import os
 from utils.data_handler import load_data, save_transactions
-from utils.visualizer import plot_by_category, plot_total_by_type, plot_monthly_summary, plot_monthly_income_vs_expenses
+from utils.visualizer import (
+    plot_by_category,
+    plot_total_by_type,
+    plot_monthly_summary,
+    plot_monthly_income_vs_expenses,
+    get_top_expense_category,
+    display_total_income_expense,
+    display_total_income_expense_ratio
+)
 
 st.set_page_config(page_title = "Personal Finance Tracker", layout = "centered")
 st.title("Personal Finance Tracker")
@@ -29,6 +37,10 @@ if not df.empty:
     plot_by_category(df)
     plot_monthly_summary(df)
     plot_monthly_income_vs_expenses(df)
+    st.subheader("Smart Financial Insights")
+    display_total_income_expense(df)
+    get_top_expense_category(df)
+    display_total_income_expense_ratio(df)
 else:
     st.info("No data to visualize yet.")
 
@@ -43,3 +55,4 @@ else:
     filtered_df = df[(df["date"] >= pd.to_datetime(strat_data)) & (df["date"] <= pd.to_datetime(end_date))]
     st.subheader("Filtered Transactions")
     st.dataframe(filtered_df)
+
