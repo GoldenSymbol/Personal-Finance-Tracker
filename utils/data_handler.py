@@ -5,14 +5,14 @@ def load_data(filepath):
     if os.path.exists(filepath):
         return pd.read_csv(filepath)
     else:
-        return pd.DataFrame(columns=["Amount", "Category", "Type", "Date"])
+        return pd.DataFrame(columns=["amount", "category", "type", "date"])
 
 def save_transactions(filepath, amount, category, transaction_type, date):
     new_data = pd.DataFrame([{
-        "Amount": amount,
-        "Category": category,
-        "Type": transaction_type,
-        "Date": date
+        "amount": amount,
+        "category": category,
+        "type": transaction_type,
+        "date": date
     }])
 
     if os.path.exists(filepath):

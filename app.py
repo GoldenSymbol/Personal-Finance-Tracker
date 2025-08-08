@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
+import sys
 import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 from utils.data_handler import load_data, save_transactions
 from utils.visualizer import (
     plot_by_category,
@@ -17,14 +20,15 @@ st.title("Personal Finance Tracker")
 
 data_file = "data/transactions.CSV"
 df = load_data(data_file)
+df.columns = df.columns.str.strip().str.lower()
 df["date"] = pd.to_datetime(df["date"])
 
 st.header("Add New Transaction")
 with st.form("transactions form"):
-    amount = st.number_input("Amount", format("%.2f"))
-    category = st.text_input("Category (Groceries, rent, salary, e.g.)")
-    transaction_type = st.selectbox("Type", ["Income", "Expense"])
-    date = st.date_input("Date")
+    amount = st.number_input("amount", format = "%.2f")
+    category = st.text_input("category (Groceries, rent, salary, e.g.)")
+    transaction_type = st.selectbox("type", ["Income", "Expense"])
+    date = st.date_input("date")
     submitted = st.form_submit_button("Add Transaction")
 
     if  submitted:
