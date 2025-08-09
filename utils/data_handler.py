@@ -1,23 +1,26 @@
 import pandas as pd
 import os
 
-def load_data(filepath):
-    if os.path.exists(filepath):
-        return pd.read_csv(filepath)
-    else:
-        return pd.DataFrame(columns = ["amount", "category", "type", "date"])
+DATA_FILE= "data.csv"
 
-def save_transactions(filepath, amount, category, transaction_type, date):
-    new_data = pd.DataFrame([{
-        "amount": amount,
-        "category": category,
-        "type": transaction_type,
-        "date": date
-    }])
+def initialize_data_file():
+    if not os.path.exists(DATA_FILE):
+        df = pd.DataFrame(columns = ["date", "category", "amount" ,"type"])
+        df.to_csv(DATA_FILE, index = False)
 
-    if os.path.exists(filepath):
-        df = pd.read_csv(filepath)
-        df = pd.concat([df, new_data], ignore_index = True)
-    else:
-        df = new_data
-    df.to_csv(filepath, index = False)
+def load_data():
+    initialize_data_file()
+    return pd.read_csv(DATA_FILE)
+
+def add_record(date, category, amount, type_):
+    initialize_data_file()
+    df = load_data()
+    new_record = {"date": date, "category": category, "amount": amount, "type": type_}
+    df = pd.concat([df, pd.DataFrame([new_record])], ignore_index = True)
+    df.to_csv(DATA_FILE, index = False)
+
+def get_summary():
+    df = load_data()
+    if df.empty:
+        return pd.DataFrame(columns = ["category", "total"])
+    return df.gruopby("category")["amount"].sum().reset_index(name = "total")
