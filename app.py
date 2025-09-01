@@ -4,7 +4,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-from utils.data_handler import load_data, save_transactions
+from utils.data_handler import load_data, add_record
 from utils.visualizer import (
     plot_by_category,
     plot_total_by_type,
@@ -18,23 +18,30 @@ from utils.visualizer import (
 st.set_page_config(page_title = "Personal Finance Tracker", layout = "centered")
 st.title("Personal Finance Tracker")
 
-data_file = "data/transactions.CSV"
-df = load_data(data_file)
+# LOAD DATA
+df = load_data()
+st.write("columns in CSV:", df.colimns.tolist())
 df.columns = df.columns.str.strip().str.lower()
-df["date"] = pd.to_datetime(df["date"])
+st.write("columns after normalization:", df.columns.tolist())
 
+# HANDLE EMPTY DATASET SAFELY
+if not df.empty and "date" in df.columns:
+    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+
+# ADD NEW TRANSACTION
 st.header("Add New Transaction")
 with st.form("transactions form"):
     amount = st.number_input("amount", format = "%.2f")
-    category = st.text_input("category (Groceries, rent, salary, e.g.)")
+    category = st.text_input("category (Groceries, rent, salary, etc.)")
     transaction_type = st.selectbox("type", ["Income", "Expense"])
     date = st.date_input("date")
     submitted = st.form_submit_button("Add Transaction")
 
     if  submitted:
-        save_transactions(data_file, amount, category, transaction_type, date)
+        add_record(date, category, amount, transaction_type)
         st.success("Transaction added successfully !")
 
+# SUMMARY & VISUALIZATIONS
 st.subheader("Summary")
 if not df.empty:
     plot_total_by_type(df)
@@ -48,15 +55,19 @@ if not df.empty:
 else:
     st.info("No data to visualize yet.")
 
+# FILTER BY DATE RANGE
 st.header("Filter Transactions by Date Range")
+start_date, end_date = None, None
+if not df.empty:  
+    start_date = st.date_input("Start Date", value = df["date"].min().date())
+    end_date = st.date_input("End Date", value = df["date"].max().date())
 
-strat_data = st.date_input("Start Date", value = df["date"].min())
-end_date = st.date_input("End Date", value = df["date"].max())
-
-if strat_data > end_date:
+if start_date > end_date:
     st.error("Start date must be before the ends date.")
 else:
-    filtered_df = df[(df["date"] >= pd.to_datetime(strat_data)) & (df["date"] <= pd.to_datetime(end_date))]
-    st.subheader("Filtered Transactions")
+    filtered_df = df[
+        (df["date"] >= pd.to_datetime(start_date)) &
+        (df["date"] <= pd.to_datetime(end_date))
+    ]
+    st.subheader("Filtered Transaction")
     st.dataframe(filtered_df)
-
