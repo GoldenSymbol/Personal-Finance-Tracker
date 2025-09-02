@@ -20,7 +20,7 @@ st.title("Personal Finance Tracker")
 
 # LOAD DATA
 df = load_data()
-st.write("columns in CSV:", df.colimns.tolist())
+st.write("columns in CSV:", df.columns.tolist())
 df.columns = df.columns.str.strip().str.lower()
 st.write("columns after normalization:", df.columns.tolist())
 
