@@ -26,7 +26,9 @@ This project is ideal for students and junior developers seeking hands-on experi
 - Add new transactions (amount, category, type, date)
   <img width="1204" height="778" alt="צילום מסך 2025-09-02 201025" src="https://github.com/user-attachments/assets/fa2c1935-33e5-4fde-9b6c-fa10192a94da" />
 - Save transactions to a persistent CSV file  
-- Load saved transactions on app startup  
+- Load saved transactions on app startup
+- Add data visualization with charts
+<img width="834" height="711" alt="צילום מסך 2025-09-02 201451" src="https://github.com/user-attachments/assets/0ccd2f58-10fb-4e81-a2f4-3ac7d4119180" />
 
 ---
 
@@ -61,6 +63,5 @@ Personal-Finance-Tracker/
 
 ## Next Step
 
-- Add data visualization with charts
 - Add filtering by category or date
 - Add monthly summary dashboard
