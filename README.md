@@ -25,6 +25,7 @@ This project is ideal for students and junior developers seeking hands-on experi
 - Upload and display a simple UI  
 - Add new transactions (amount, category, type, date)
   <img width="1204" height="778" alt="צילום מסך 2025-09-02 201025" src="https://github.com/user-attachments/assets/fa2c1935-33e5-4fde-9b6c-fa10192a94da" />
+  
 - Save transactions to a persistent CSV file  
 - Load saved transactions on app startup
 - Add data visualization with charts
